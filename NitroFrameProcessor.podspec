@@ -14,10 +14,10 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/PiotrSzczepanekVaveHealth/react-native-nitro-frame-processor.git", :tag => "#{s.version}" }
 
   s.source_files = [
-    "ios/**/*.{swift}",
-    "ios/**/*.{m,mm}",
+    "ios/*.{swift,h,m,mm}",
     "cpp/**/*.{hpp,cpp}",
   ]
+  s.public_header_files = "ios/CVIEBridge.h"
   s.vendored_frameworks = "ios/CVIESDK/bin/cvie64.framework"
   s.resources = ["ios/CVIESDK/par/*"]
 

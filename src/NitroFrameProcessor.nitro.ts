@@ -9,5 +9,5 @@ export interface NitroFrameProcessor extends HybridObject<{
   setSetting(setting: number): void;
   setParameterFilePath(path: string): void;
   activateLicense(activationKey: string, deviceId: string): boolean;
-  processImage(width: number, height: number, input: ArrayBuffer): ArrayBuffer;
+  processFrame(width: number, height: number, input: ArrayBuffer): ArrayBuffer;
 }

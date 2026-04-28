@@ -55,7 +55,7 @@ class NitroFrameProcessor : HybridNitroFrameProcessorSpec() {
     }
   }
 
-  override fun processImage(width: Double, height: Double, input: ArrayBuffer): ArrayBuffer {
+  override fun processFrame(width: Double, height: Double, input: ArrayBuffer): ArrayBuffer {
     if (!isEnabled) return input
 
     val imageWidth = width.toInt()

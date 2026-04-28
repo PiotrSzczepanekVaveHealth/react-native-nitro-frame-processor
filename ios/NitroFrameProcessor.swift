@@ -1,13 +1,44 @@
 import Foundation
 import NitroModules
-import cvie64
+
+@_silgen_name("CVIEBridgeActivateLicense")
+private func CVIEBridgeActivateLicense(
+  _ activationKey: UnsafePointer<CChar>?,
+  _ deviceId: UnsafePointer<CChar>?
+) -> Bool
+
+@_silgen_name("CVIEBridgeCreate")
+private func CVIEBridgeCreate(
+  _ handleOut: UnsafeMutablePointer<UnsafeMutableRawPointer?>?
+) -> Bool
+
+@_silgen_name("CVIEBridgeDestroy")
+private func CVIEBridgeDestroy(_ handle: UnsafeMutableRawPointer?)
+
+@_silgen_name("CVIEBridgeConfigure")
+private func CVIEBridgeConfigure(
+  _ handle: UnsafeMutableRawPointer?,
+  _ threads: Int32,
+  _ parameterFilePath: UnsafePointer<CChar>?,
+  _ width: Int32,
+  _ height: Int32,
+  _ setting: Int32
+) -> Bool
+
+@_silgen_name("CVIEBridgeEnhanceNextU8")
+private func CVIEBridgeEnhanceNextU8(
+  _ handle: UnsafeMutableRawPointer?,
+  _ inputBytes: UnsafePointer<UInt8>?,
+  _ outputBytes: UnsafeMutablePointer<UInt8>?,
+  _ setting: Int32
+) -> Bool
 
 class NitroFrameProcessor: HybridNitroFrameProcessorSpec {
   private var isEnabled: Bool = true
   private var setting: Int32 = 0
   private var numThreads: Int32 = 1
   private var parameterFilePath: String = ""
-  private var cvieHandle: HCVIE? = nil
+  private var cvieHandle: UnsafeMutableRawPointer? = nil
   private var isLicenseActivated: Bool = false
 
   private var previousWidth: Int32 = -1
@@ -32,34 +63,16 @@ class NitroFrameProcessor: HybridNitroFrameProcessorSpec {
   }
 
   public func activateLicense(activationKey: String, deviceId: String) throws -> Bool {
-    _ = deviceId.withCString { deviceIdCString in
-      CVLMSetParameterValue(LM_INIT, deviceIdCString)
-    }
-
-    var productIds: UnsafeMutablePointer<UnsafePointer<CChar>?>?
-    guard CVLMGetPossibleModules(nil, &productIds) == CVIE_E_OK, let productIds else {
-      return false
-    }
-
-    var index: Int32 = 0
-    while true {
-      guard let productId = productIds[Int(index)] else { break }
-      if productId.pointee == 0 { break }
-
-      let result = activationKey.withCString { activationKeyCString in
-        CVLMSetKey(nil, index, activationKeyCString)
+    let activated = activationKey.withCString { activationKeyCString in
+      deviceId.withCString { deviceIdCString in
+        CVIEBridgeActivateLicense(activationKeyCString, deviceIdCString)
       }
-      if result == CVIE_E_OK {
-        isLicenseActivated = true
-        return true
-      }
-      index += 1
     }
-
-    return false
+    isLicenseActivated = activated
+    return activated
   }
 
-  public func processImage(
+  public func processFrame(
     width: Double,
     height: Double,
     input: ArrayBuffer
@@ -77,17 +90,17 @@ class NitroFrameProcessor: HybridNitroFrameProcessorSpec {
       var inputBytes = [UInt8](inputData)
       var outputBytes = [UInt8](repeating: 0, count: inputBytes.count)
 
-      let result = CVIEEnhanceNext(
+      let result = CVIEBridgeEnhanceNextU8(
         cvieHandle,
         &inputBytes,
         &outputBytes,
         setting
       )
-      if result != CVIE_E_OK {
+      if !result {
         return input
       }
 
-      return ArrayBuffer.copy(data: Data(outputBytes))
+      return try ArrayBuffer.copy(data: Data(outputBytes))
     } catch {
       return input
     }
@@ -103,13 +116,13 @@ class NitroFrameProcessor: HybridNitroFrameProcessorSpec {
 
     if !needsRecreate { return }
 
-    if var handle = cvieHandle {
-      _ = CVIEDestroy(&handle)
+    if let handle = cvieHandle {
+      CVIEBridgeDestroy(handle)
       cvieHandle = nil
     }
 
-    var handle: HCVIE? = nil
-    guard CVIECreate(&handle, 0) == CVIE_E_OK else {
+    var handle: UnsafeMutableRawPointer?
+    guard CVIEBridgeCreate(&handle) else {
       throw NSError(domain: "NitroFrameProcessor", code: 1)
     }
     cvieHandle = handle
@@ -118,11 +131,19 @@ class NitroFrameProcessor: HybridNitroFrameProcessorSpec {
       throw NSError(domain: "NitroFrameProcessor", code: 2)
     }
 
-    _ = CVIESetThreads(cvieHandle, numThreads)
-    _ = parameterFilePath.withCString { path in
-      CVIESetParameterFile(cvieHandle, path, nil)
+    let configured = parameterFilePath.withCString { path in
+      CVIEBridgeConfigure(
+        cvieHandle,
+        Int32(numThreads),
+        path,
+        width,
+        height,
+        setting
+      )
     }
-    _ = CVIEEnhanceSetup(cvieHandle, width, height, CVIE_DATA_U8, setting, nil)
+    if !configured {
+      throw NSError(domain: "NitroFrameProcessor", code: 3)
+    }
 
     previousWidth = width
     previousHeight = height

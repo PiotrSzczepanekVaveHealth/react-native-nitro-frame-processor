@@ -1,6 +1,6 @@
 export {
   activateLicense,
-  processImage,
+  processFrame,
   setEnabled,
   setNumThreads,
   setParameterFilePath,

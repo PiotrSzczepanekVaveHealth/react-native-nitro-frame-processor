@@ -1,0 +1,23 @@
+{
+  "cxxNamespace": ["nitroframeprocessor"],
+  "ios": {
+    "iosModuleName": "NitroFrameProcessor"
+  },
+  "android": {
+    "androidNamespace": ["nitroframeprocessor"],
+    "androidCxxLibName": "nitroframeprocessor"
+  },
+  "autolinking": {
+    "NitroFrameProcessor": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "NitroFrameProcessor"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "NitroFrameProcessor"
+      }
+    }
+  },
+  "ignorePaths": ["node_modules"]
+}

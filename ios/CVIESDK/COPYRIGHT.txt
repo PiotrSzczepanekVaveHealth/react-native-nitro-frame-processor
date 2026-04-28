@@ -1,0 +1,312 @@
+
+This software is Copyright (C) 2011-2023 ContextVision.
+All rights reserved.
+
+-----------------------------------------------------------
+
+This software may include code by the Khronos Group under the following license:
+
+   Copyright (c) 2008-2015 The Khronos Group Inc.
+
+   Permission is hereby granted, free of charge, to any person obtaining a
+   copy of this software and/or associated documentation files (the
+   "Materials"), to deal in the Materials without restriction, including
+   without limitation the rights to use, copy, modify, merge, publish,
+   distribute, sublicense, and/or sell copies of the Materials, and to
+   permit persons to whom the Materials are furnished to do so, subject to
+   the following conditions:
+
+   The above copyright notice and this permission notice shall be included
+   in all copies or substantial portions of the Materials.
+
+   MODIFICATIONS TO THIS FILE MAY MEAN IT NO LONGER ACCURATELY REFLECTS
+   KHRONOS STANDARDS. THE UNMODIFIED, NORMATIVE VERSIONS OF KHRONOS
+   SPECIFICATIONS AND HEADER INFORMATION ARE LOCATED AT
+      https://www.khronos.org/registry/
+
+   THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+   MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
+
+-----------------------------------------------------------
+
+This software includes code provided by Advanced Micro Devices, Inc. under the following license:
+
+   Copyright (c) 2006-2008 Advanced Micro Devices, Inc. All Rights Reserved.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+-----------------------------------------------------------
+
+This software includes code by Julien Pommer and Giovanni Garberoglio under the following license:
+
+   Copyright (C) 2007  Julien Pommier
+   Copyright (C) 2012 Giovanni Garberoglio
+
+   This software is provided 'as-is', without any express or implied
+   warranty.  In no event will the authors be held liable for any damages
+   arising from the use of this software.
+
+   Permission is granted to anyone to use this software for any purpose,
+   including commercial applications, and to alter it and redistribute it
+   freely, subject to the following restrictions:
+
+   1. The origin of this software must not be misrepresented; you must not
+      claim that you wrote the original software. If you use this software
+      in a product, an acknowledgment in the product documentation would be
+      appreciated but is not required.
+   2. Altered source versions must be plainly marked as such, and must not be
+      misrepresented as being the original software.
+   3. This notice may not be removed or altered from any source distribution.
+
+   (this is the same as the zlib license)
+
+-----------------------------------------------------------
+
+This software uses the Expat software package available from http://expat.sourceforge.net
+
+
+   Copyright (c) 1998-2000 Thai Open Source Software Center Ltd and Clark Cooper
+   Copyright (c) 2001-2017 Expat maintainers
+
+   Permission is hereby granted, free of charge, to any person obtaining
+   a copy of this software and associated documentation files (the
+   "Software"), to deal in the Software without restriction, including
+   without limitation the rights to use, copy, modify, merge, publish,
+   distribute, sublicense, and/or sell copies of the Software, and to
+   permit persons to whom the Software is furnished to do so, subject to
+   the following conditions:
+
+   The above copyright notice and this permission notice shall be included
+   in all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----------------------------------------------------------
+
+This software includes code by Henrik Abelsson under the following license:
+
+   Copyright (c) 2000-2005 Henrik Abelsson <henrik@abelsson.com>.
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are
+   met:
+
+   * Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+   IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+   TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+   PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+   OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+-----------------------------------------------------------
+
+This software may contain source code provided by NVIDIA Corporation under the following license:
+
+   Copyright 1993-2014 NVIDIA Corporation.  All rights reserved.
+
+   NOTICE TO LICENSEE:
+
+   This source code and/or documentation ("Licensed Deliverables") are
+   subject to NVIDIA intellectual property rights under U.S. and
+   international Copyright laws.
+
+   These Licensed Deliverables contained herein is PROPRIETARY and
+   CONFIDENTIAL to NVIDIA and is being provided under the terms and
+   conditions of a form of NVIDIA software license agreement by and
+   between NVIDIA and Licensee ("License Agreement") or electronically
+   accepted by Licensee.  Notwithstanding any terms or conditions to
+   the contrary in the License Agreement, reproduction or disclosure
+   of the Licensed Deliverables to any third party without the express
+   written consent of NVIDIA is prohibited.
+
+   NOTWITHSTANDING ANY TERMS OR CONDITIONS TO THE CONTRARY IN THE
+   LICENSE AGREEMENT, NVIDIA MAKES NO REPRESENTATION ABOUT THE
+   SUITABILITY OF THESE LICENSED DELIVERABLES FOR ANY PURPOSE.  IT IS
+   PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY OF ANY KIND.
+   NVIDIA DISCLAIMS ALL WARRANTIES WITH REGARD TO THESE LICENSED
+   DELIVERABLES, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY,
+   NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE.
+   NOTWITHSTANDING ANY TERMS OR CONDITIONS TO THE CONTRARY IN THE
+   LICENSE AGREEMENT, IN NO EVENT SHALL NVIDIA BE LIABLE FOR ANY
+   SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, OR ANY
+   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+   WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
+   ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+   OF THESE LICENSED DELIVERABLES.
+
+   U.S. Government End Users.  These Licensed Deliverables are a
+   "commercial item" as that term is defined at 48 C.F.R. 2.101 (OCT
+   1995), consisting of "commercial computer software" and "commercial
+   computer software documentation" as such terms are used in 48
+   C.F.R. 12.212 (SEPT 1995) and is provided to the U.S. Government
+   only as a commercial end item.  Consistent with 48 C.F.R.12.212 and
+   48 C.F.R. 227.7202-1 through 227.7202-4 (JUNE 1995), all
+   U.S. Government End Users acquire the Licensed Deliverables with
+   only those rights set forth herein.
+
+   Any use of the Licensed Deliverables in individual and commercial
+   software must include, in the user documentation and internal
+   comments to the code, the above Disclaimer and U.S. Government End
+   Users Notice.
+
+ -----------------------------------------------------------
+
+ This software may include ctpl_stl.h by Vitaliy Vitsentiy under the following license:
+
+    Copyright (C) 2014 by Vitaliy Vitsentiy
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+ -----------------------------------------------------------
+
+This software may include code copyrighted by Intel under the following license:
+
+Copyright (c) 2018 Intel Corporation.
+
+Use and Redistribution. You may use and redistribute the software (the
+"Software"), without modification, provided the following conditions are met:
+
+* Redistributions must reproduce the above copyright notice and the following
+  terms of use in the Software and in the documentation and/or other materials
+  provided with the distribution.
+
+* Neither the name of Intel nor the names of its suppliers may be used to
+  endorse or promote products derived from this Software without specific prior
+  written permission.
+
+* No reverse engineering, decompilation, or disassembly of this Software is permitted.
+
+Limited patent license.  Intel grants you a world-wide, royalty-free,
+non-exclusive license under patents it now or hereafter owns or controls to
+make, have made, use, import, offer to sell and sell ("Utilize") this Software,
+but solely to the extent that any such patent is necessary to Utilize the
+Software alone. The patent license shall not apply to any combinations which
+include this software.  No hardware per se is licensed hereunder.
+
+Third party and other Intel programs.  "Third Party Programs" are the files
+listed in the "third-party-programs.txt" text file that is included with the
+Software and may include Intel programs under separate license terms. Third
+Party Programs, even if included with the distribution of the Materials, are
+governed by separate license terms and those license terms solely govern your
+use of those programs.
+
+DISCLAIMER.  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT ARE
+DISCLAIMED. THIS SOFTWARE IS NOT INTENDED FOR USE IN SYSTEMS OR APPLICATIONS
+WHERE FAILURE OF THE SOFTWARE MAY CAUSE PERSONAL INJURY OR DEATH AND YOU AGREE
+THAT YOU ARE FULLY RESPONSIBLE FOR ANY CLAIMS, COSTS, DAMAGES, EXPENSES, AND
+ATTORNEYS' FEES ARISING OUT OF ANY SUCH USE, EVEN IF ANY CLAIM ALLEGES THAT
+INTEL WAS NEGLIGENT REGARDING THE DESIGN OR MANUFACTURE OF THE MATERIALS.
+
+LIMITATION OF LIABILITY. IN NO EVENT WILL INTEL BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. YOU AGREE TO INDEMNIFY AND HOLD INTEL
+HARMLESS AGAINST ANY CLAIMS AND EXPENSES RESULTING FROM YOUR USE OR UNAUTHORIZED
+USE OF THE SOFTWARE.
+
+No support.  Intel may make changes to the Software, at any time without notice,
+and is not obligated to support, update or provide training for the Software.
+
+Termination. Intel may terminate your right to use the Software in the event of
+your breach of this Agreement and you fail to cure the breach within a
+reasonable period of time.
+
+Feedback.  Should you provide Intel with comments, modifications, corrections,
+enhancements or other input ("Feedback") related to the Software Intel will be
+free to use, disclose, reproduce, license or otherwise distribute or exploit the
+Feedback in its sole discretion without any obligations or restrictions of any
+kind, including without limitation, intellectual property rights or licensing
+obligations.
+
+Compliance with laws.  You agree to comply with all relevant laws and
+regulations governing your use, transfer, import or export (or prohibition
+thereof) of the Software.
+
+Governing law.  All disputes will be governed by the laws of the United States
+of America and the State of Delaware without reference to conflict of law
+principles and subject to the exclusive jurisdiction of the state or federal
+courts sitting in the State of Delaware, and each party agrees that it submits
+to the personal jurisdiction and venue of those courts and waives any
+objections. The United Nations Convention on Contracts for the International
+Sale of Goods (1980) is specifically excluded and will not apply to the
+Software.
+
+*Other names and brands may be claimed as the property of others.
+
+
+-------------------------------------------------------------------------
+
+The CVLicense.exe software includes CURL code copyrighted under the following license:
+
+COPYRIGHT AND PERMISSION NOTICE
+
+Copyright (c) 1996 - 2019, Daniel Stenberg, daniel@haxx.se, and many contributors, see the THANKS file.
+
+All rights reserved.
+
+Permission to use, copy, modify, and distribute this software for any purpose with or without fee is hereby granted, provided that
+the above copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Except as contained in this notice, the name of a copyright holder shall not be used in advertising or otherwise to promote the
+sale, use or other dealings in this Software without prior written authorization of the copyright holder.
+
+-------------------------------------------------------------------------
+
+This software may include code from Eigen licensed under Mozilla MPL 2.0. This software has not been modified.
+
+Eigen source code is available here: eigen.tuxfamily.org
+
+The license information is available here: https://www.mozilla.org/en-US/MPL/2.0/

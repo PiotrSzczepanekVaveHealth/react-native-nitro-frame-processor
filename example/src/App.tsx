@@ -1,12 +1,17 @@
 import { Text, View, StyleSheet } from 'react-native';
-import { multiply } from 'react-native-nitro-frame-processor';
+import {
+  activateLicense,
+  setEnabled,
+} from 'react-native-nitro-frame-processor';
 
-const result = multiply(3, 7);
+setEnabled(true);
+const licenseActivated = activateLicense('demo-key', 'demo-device');
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>CVIE Nitro module loaded</Text>
+      <Text>License activated: {String(licenseActivated)}</Text>
     </View>
   );
 }

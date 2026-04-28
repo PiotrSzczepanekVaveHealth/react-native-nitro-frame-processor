@@ -18,6 +18,8 @@ Pod::Spec.new do |s|
     "ios/**/*.{m,mm}",
     "cpp/**/*.{hpp,cpp}",
   ]
+  s.vendored_frameworks = "ios/CVIESDK/bin/cvie64.framework"
+  s.resources = ["ios/CVIESDK/par/*"]
 
   s.dependency 'React-jsi'
   s.dependency 'React-callinvoker'

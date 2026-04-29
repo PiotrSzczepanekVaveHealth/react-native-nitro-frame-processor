@@ -9,13 +9,9 @@
   },
   "autolinking": {
     "NitroFrameProcessor": {
-      "ios": {
-        "language": "swift",
-        "implementationClassName": "NitroFrameProcessor"
-      },
-      "android": {
-        "language": "kotlin",
-        "implementationClassName": "NitroFrameProcessor"
+      "all": {
+        "language": "c++",
+        "implementationClassName": "NitroFrameProcessorCpp"
       }
     }
   },

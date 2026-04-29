@@ -47,14 +47,10 @@ export function activateLicense(
   return instance.activateLicense(activationKey, deviceId);
 }
 
-export function processFrame(
-  width: number,
-  height: number,
-  input: ArrayBuffer
-): ArrayBuffer {
+export function processFrame(input: ArrayBuffer): ArrayBuffer {
   const instance = getNitroFrameProcessorHybridObject();
   if (instance == null) {
     return input;
   }
-  return instance.processFrame(width, height, input);
+  return instance.processFrame(input);
 }

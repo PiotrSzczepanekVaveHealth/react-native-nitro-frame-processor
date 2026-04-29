@@ -20,12 +20,18 @@ export default function App() {
     try {
       const width = 128;
       const height = 128;
-      const inputBytes = new Uint8Array(width * height);
-      for (let i = 0; i < inputBytes.length; i += 1) {
-        inputBytes[i] = i % 255;
+      const rawBytes = new Uint8Array(width * height);
+      for (let i = 0; i < rawBytes.length; i += 1) {
+        rawBytes[i] = i % 255;
       }
 
-      const output = processFrame(width, height, inputBytes.buffer);
+      const packed = new Uint8Array(8 + rawBytes.length);
+      const view = new DataView(packed.buffer);
+      view.setUint32(0, width, true);
+      view.setUint32(4, height, true);
+      packed.set(rawBytes, 8);
+
+      const output = processFrame(packed.buffer);
       const outputBytes = new Uint8Array(output);
       return `Processed ${outputBytes.length} bytes`;
     } catch (error) {

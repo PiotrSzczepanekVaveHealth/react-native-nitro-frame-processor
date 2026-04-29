@@ -20,6 +20,9 @@ Pod::Spec.new do |s|
   s.public_header_files = "ios/CVIEBridge.h"
   s.vendored_frameworks = "ios/CVIESDK/bin/cvie64.framework"
   s.resources = ["ios/CVIESDK/par/*"]
+  s.pod_target_xcconfig = {
+    "HEADER_SEARCH_PATHS" => "\"$(PODS_TARGET_SRCROOT)/cpp\" \"$(PODS_TARGET_SRCROOT)/ios/CVIESDK/include\""
+  }
 
   s.dependency 'React-jsi'
   s.dependency 'React-callinvoker'

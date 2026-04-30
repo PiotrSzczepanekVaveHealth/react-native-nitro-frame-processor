@@ -1,5 +1,6 @@
 package com.margelo.nitro.nitroframeprocessor
 
+import android.content.Context
 import android.system.Os
 import android.util.Log
 import com.facebook.react.BaseReactPackage
@@ -28,15 +29,31 @@ class NitroFrameProcessorPackage : BaseReactPackage() {
 
         init {
             System.loadLibrary("nitroframeprocessor")
+            tryInitializeSetupFromApplicationContext()
         }
 
-        private fun ensureContextVisionFilesReady(context: ReactApplicationContext) {
+        private fun tryInitializeSetupFromApplicationContext() {
+            try {
+                val activityThreadClass = Class.forName("android.app.ActivityThread")
+                val currentApplicationMethod = activityThreadClass.getMethod("currentApplication")
+                val application = currentApplicationMethod.invoke(null) as? Context
+                if (application != null) {
+                    ensureContextVisionFilesReady(application)
+                } else {
+                    Log.w(TAG, "Unable to get Application context for eager ContextVision setup.")
+                }
+            } catch (e: Throwable) {
+                Log.w(TAG, "Eager ContextVision setup unavailable, will retry via React context.", e)
+            }
+        }
+
+        private fun ensureContextVisionFilesReady(context: Context) {
             if (isContextVisionSetupDone.get()) return
             synchronized(isContextVisionSetupDone) {
                 if (isContextVisionSetupDone.get()) return
                 try {
                     val targetDir = context.getExternalFilesDir(null) ?: context.filesDir
-                    Os.setenv("COV_LICENSE_LOCATION", targetDir.absolutePath, false)
+                    Os.setenv("COV_LICENSE_LOCATION", targetDir.absolutePath, true)
                     copyContextVisionAssets(context, targetDir)
                 } catch (e: Throwable) {
                     Log.e(TAG, "ContextVision setup failed", e)
@@ -46,7 +63,7 @@ class NitroFrameProcessorPackage : BaseReactPackage() {
             }
         }
 
-        private fun copyContextVisionAssets(context: ReactApplicationContext, targetDir: File) {
+        private fun copyContextVisionAssets(context: Context, targetDir: File) {
             val foldersToInspect = listOf("", "context_vision")
             val allowedExtensions = listOf(
                 ".cov",
@@ -67,7 +84,7 @@ class NitroFrameProcessorPackage : BaseReactPackage() {
             }
         }
 
-        private fun copyAsset(context: ReactApplicationContext, assetPath: String, destination: File) {
+        private fun copyAsset(context: Context, assetPath: String, destination: File) {
             try {
                 context.assets.open(assetPath).use { input ->
                     FileOutputStream(destination, false).use { output ->

@@ -1,6 +1,6 @@
 {
   "name": "react-native-nitro-frame-processor",
-  "version": "0.1.8",
+  "version": "0.1.12",
   "description": "Frame processor built on nitro-module",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",

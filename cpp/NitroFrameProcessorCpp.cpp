@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <cstdio>
 #include <filesystem>
 #include <vector>
 
@@ -99,7 +98,6 @@ NitroFrameProcessorCpp::~NitroFrameProcessorCpp() {
 
 void NitroFrameProcessorCpp::setEnabled(bool value) {
   isEnabled_ = value;
-  std::fprintf(stderr, "[NitroFrameProcessor] setEnabled=%s\n", isEnabled_ ? "true" : "false");
 }
 
 void NitroFrameProcessorCpp::setNumThreads(double numThreads) {
@@ -112,15 +110,6 @@ void NitroFrameProcessorCpp::setSetting(double setting) {
 
 void NitroFrameProcessorCpp::setParameterFilePath(const std::string& path) {
   parameterFilePath_ = resolveParameterFilePath(path);
-  std::error_code ec;
-  const bool exists = !parameterFilePath_.empty() && std::filesystem::exists(parameterFilePath_, ec) && !ec;
-  std::fprintf(
-    stderr,
-    "[NitroFrameProcessor] setParameterFilePath requested=%s resolved=%s exists=%s\n",
-    path.c_str(),
-    parameterFilePath_.c_str(),
-    exists ? "true" : "false"
-  );
 }
 
 bool NitroFrameProcessorCpp::activateLicense(
@@ -133,9 +122,6 @@ bool NitroFrameProcessorCpp::activateLicense(
 
 std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processFrame(const std::shared_ptr<ArrayBuffer>& input) {
   if (!isEnabled_ || input == nullptr || input->data() == nullptr) {
-    if (!isEnabled_) {
-      std::fprintf(stderr, "[NitroFrameProcessor] processFrame skipped: enabled=false\n");
-    }
     return input;
   }
   if (parameterFilePath_.empty()) {
@@ -181,33 +167,22 @@ bool NitroFrameProcessorCpp::ensureConfigured(int width, int height) {
   const bool needsRecreate = handle_ == nullptr || previousWidth_ != width || previousHeight_ != height ||
     previousSetting_ != setting_ || previousParameterFilePath_ != parameterFilePath_;
   if (!needsRecreate) {
-    std::fprintf(
-      stderr,
-      "[NitroFrameProcessor] ensureConfigured reused handle width=%d height=%d setting=%d\n",
-      width,
-      height,
-      setting_
-    );
     return true;
   }
 
   if (handle_ != nullptr) {
-    std::fprintf(stderr, "[NitroFrameProcessor] ensureConfigured recreating handle\n");
     FrameProcessorDestroy(handle_);
     handle_ = nullptr;
   }
   if (!isLicenseActivated_) {
-    std::fprintf(stderr, "[NitroFrameProcessor] ensureConfigured failed: license not activated\n");
     return false;
   }
   if (!FrameProcessorCreate(&handle_) || handle_ == nullptr) {
-    std::fprintf(stderr, "[NitroFrameProcessor] ensureConfigured failed: FrameProcessorCreate\n");
     return false;
   }
   if (!FrameProcessorConfigure(handle_, numThreads_, parameterFilePath_.c_str(), width, height, setting_)) {
     FrameProcessorDestroy(handle_);
     handle_ = nullptr;
-    std::fprintf(stderr, "[NitroFrameProcessor] ensureConfigured failed: FrameProcessorConfigure\n");
     return false;
   }
 
@@ -215,14 +190,6 @@ bool NitroFrameProcessorCpp::ensureConfigured(int width, int height) {
   previousHeight_ = height;
   previousSetting_ = setting_;
   previousParameterFilePath_ = parameterFilePath_;
-  std::fprintf(
-    stderr,
-    "[NitroFrameProcessor] ensureConfigured success width=%d height=%d setting=%d threads=%d\n",
-    width,
-    height,
-    setting_,
-    numThreads_
-  );
   return true;
 }
 

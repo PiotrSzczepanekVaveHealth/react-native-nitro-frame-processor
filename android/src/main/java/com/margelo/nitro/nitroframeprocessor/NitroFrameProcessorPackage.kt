@@ -2,7 +2,6 @@ package com.margelo.nitro.nitroframeprocessor
 
 import android.content.Context
 import android.system.Os
-import android.util.Log
 import com.facebook.react.BaseReactPackage
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
@@ -24,7 +23,6 @@ class NitroFrameProcessorPackage : BaseReactPackage() {
     }
 
     companion object {
-        private const val TAG = "NitroFrameProcessor"
         private val isContextVisionSetupDone = AtomicBoolean(false)
 
         init {
@@ -39,11 +37,8 @@ class NitroFrameProcessorPackage : BaseReactPackage() {
                 val application = currentApplicationMethod.invoke(null) as? Context
                 if (application != null) {
                     ensureContextVisionFilesReady(application)
-                } else {
-                    Log.w(TAG, "Unable to get Application context for eager ContextVision setup.")
                 }
             } catch (e: Throwable) {
-                Log.w(TAG, "Eager ContextVision setup unavailable, will retry via React context.", e)
             }
         }
 
@@ -56,7 +51,6 @@ class NitroFrameProcessorPackage : BaseReactPackage() {
                     Os.setenv("COV_LICENSE_LOCATION", targetDir.absolutePath, true)
                     copyContextVisionAssets(context, targetDir)
                 } catch (e: Throwable) {
-                    Log.e(TAG, "ContextVision setup failed", e)
                 } finally {
                     isContextVisionSetupDone.set(true)
                 }
@@ -93,7 +87,6 @@ class NitroFrameProcessorPackage : BaseReactPackage() {
                     }
                 }
             } catch (e: IOException) {
-                Log.e(TAG, "Failed to copy asset: $assetPath", e)
             }
         }
 

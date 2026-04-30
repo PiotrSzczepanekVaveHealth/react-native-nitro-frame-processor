@@ -6,46 +6,57 @@
 namespace margelo::nitro::nitroframeprocessor {
 
 namespace {
-size_t getHeaderLength(const uint8_t* message, size_t messageLength) {
-  if (message == nullptr || messageLength <= 8) {
-    return 0;
-  }
-  return static_cast<size_t>(message[8]);
-}
+struct ParsedFrameLayout {
+  size_t headerLength = 0;
+  size_t trailerLength = 0;
+  size_t depth = 0;
+  size_t beamCount = 0;
+  size_t rawStart = 0;
+  size_t rawLength = 0;
+};
 
-size_t getTrailerLength(const uint8_t* message, size_t messageLength) {
-  if (message == nullptr || messageLength <= 10) {
-    return 0;
+bool parseFrameLayout(const uint8_t* message, size_t messageLength, ParsedFrameLayout* outLayout) {
+  if (message == nullptr || outLayout == nullptr || messageLength == 0) {
+    return false;
   }
-  return static_cast<size_t>(message[9]) + (static_cast<size_t>(message[10]) * 256U);
-}
 
-size_t getDepth(const uint8_t* message, size_t messageLength) {
-  if (message == nullptr || messageLength <= 13) {
-    return 0;
+  const size_t headerLength = messageLength > 8 ? static_cast<size_t>(message[8]) : 0;
+  const size_t trailerLength = messageLength > 10
+    ? static_cast<size_t>(message[9]) + (static_cast<size_t>(message[10]) * 256U)
+    : 0;
+  const size_t depth = messageLength > 13
+    ? static_cast<size_t>(message[13]) + ((messageLength > 14 ? static_cast<size_t>(message[14]) : 0) * 256U)
+    : 0;
+  if (depth == 0) {
+    return false;
   }
-  const size_t low = static_cast<size_t>(message[13]);
-  const size_t high = messageLength > 14 ? static_cast<size_t>(message[14]) : 0;
-  return low + (high * 256U);
-}
 
-size_t getBeamCount(
-  const uint8_t* message,
-  size_t messageLength,
-  size_t headerLength,
-  size_t depth,
-  size_t trailerLength
-) {
-  if (message == nullptr) {
-    return 0;
-  }
+  size_t beamCount = 0;
   if (headerLength == 33) {
-    return messageLength > 24 ? static_cast<size_t>(message[24]) : 0;
+    beamCount = messageLength > 24 ? static_cast<size_t>(message[24]) : 0;
+  } else {
+    if (headerLength + trailerLength > messageLength) {
+      return false;
+    }
+    beamCount = (messageLength - headerLength - trailerLength) / depth;
   }
-  if (depth == 0 || messageLength < headerLength + trailerLength) {
-    return 0;
+  if (beamCount == 0) {
+    return false;
   }
-  return (messageLength - headerLength - trailerLength) / depth;
+
+  const size_t rawLength = beamCount * depth;
+  const size_t rawStart = headerLength;
+  if (rawStart + rawLength > messageLength) {
+    return false;
+  }
+
+  outLayout->headerLength = headerLength;
+  outLayout->trailerLength = trailerLength;
+  outLayout->depth = depth;
+  outLayout->beamCount = beamCount;
+  outLayout->rawStart = rawStart;
+  outLayout->rawLength = rawLength;
+  return true;
 }
 }
 
@@ -96,21 +107,14 @@ std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processFrame(const std::sha
     return input;
   }
 
-  const size_t headerLength = getHeaderLength(inputData, inputSize);
-  const size_t trailerLength = getTrailerLength(inputData, inputSize);
-  const size_t depth = getDepth(inputData, inputSize);
-  const size_t beamCount = getBeamCount(inputData, inputSize, headerLength, depth, trailerLength);
-
-  const int frameWidth = static_cast<int>(depth);
-  const int frameHeight = static_cast<int>(beamCount);
-  if (frameWidth <= 0 || frameHeight <= 0) {
+  ParsedFrameLayout layout;
+  if (!parseFrameLayout(inputData, inputSize, &layout)) {
     return input;
   }
 
-  const size_t rawLength = beamCount * depth;
-  const size_t rawStart = headerLength;
-  const size_t rawEnd = rawStart + rawLength;
-  if (rawLength == 0 || rawEnd > inputSize) {
+  const int frameWidth = static_cast<int>(layout.depth);
+  const int frameHeight = static_cast<int>(layout.beamCount);
+  if (frameWidth <= 0 || frameHeight <= 0) {
     return input;
   }
 
@@ -118,17 +122,18 @@ std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processFrame(const std::sha
     return input;
   }
 
-  std::vector<uint8_t> processed(rawLength);
-  if (!FrameProcessorEnhanceNextU8(handle_, inputData + rawStart, processed.data(), setting_)) {
-    return input;
-  }
-  if (processed.size() != rawLength) {
+  auto output = ArrayBuffer::copy(input);
+  auto* outputData = output != nullptr ? output->data() : nullptr;
+  if (outputData == nullptr) {
     return input;
   }
 
-  std::vector<uint8_t> out(inputData, inputData + inputSize);
-  std::copy(processed.begin(), processed.end(), out.begin() + static_cast<long>(rawStart));
-  return ArrayBuffer::copy(out);
+  uint8_t* rawOutput = outputData + layout.rawStart;
+  if (!FrameProcessorEnhanceNextU8(handle_, rawOutput, rawOutput, setting_)) {
+    return input;
+  }
+
+  return output;
 }
 
 bool NitroFrameProcessorCpp::ensureConfigured(int width, int height) {

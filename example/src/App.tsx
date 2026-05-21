@@ -4,13 +4,11 @@ import {
   activateLicense,
   processFrame,
   setEnabled,
-  setNumThreads,
   setParameterFilePath,
   setSetting,
 } from 'react-native-nitro-frame-processor';
 
 setEnabled(true);
-setNumThreads(2);
 setSetting(0);
 setParameterFilePath('US2D-7_default.us2d7');
 const licenseActivated = activateLicense('demo-key', 'demo-device');

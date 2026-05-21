@@ -3,11 +3,17 @@
 #include <algorithm>
 #include <cstdlib>
 #include <filesystem>
+#include <thread>
 #include <vector>
 
 namespace margelo::nitro::nitroframeprocessor {
 
 namespace {
+int getDefaultNumThreads() {
+  const unsigned int hardwareConcurrency = std::thread::hardware_concurrency();
+  return hardwareConcurrency > 0 ? static_cast<int>(hardwareConcurrency) : 4;
+}
+
 std::string resolveParameterFilePath(const std::string& path) {
   if (path.empty()) {
     return path;
@@ -87,7 +93,8 @@ bool parseFrameLayout(const uint8_t* message, size_t messageLength, ParsedFrameL
 }
 }
 
-NitroFrameProcessorCpp::NitroFrameProcessorCpp() : HybridObject(TAG) {}
+NitroFrameProcessorCpp::NitroFrameProcessorCpp()
+  : HybridObject(TAG), numThreads_(getDefaultNumThreads()) {}
 
 NitroFrameProcessorCpp::~NitroFrameProcessorCpp() {
   if (handle_ != nullptr) {
@@ -165,7 +172,8 @@ std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processFrame(const std::sha
 
 bool NitroFrameProcessorCpp::ensureConfigured(int width, int height) {
   const bool needsRecreate = handle_ == nullptr || previousWidth_ != width || previousHeight_ != height ||
-    previousSetting_ != setting_ || previousParameterFilePath_ != parameterFilePath_;
+    previousSetting_ != setting_ || previousNumThreads_ != numThreads_ ||
+    previousParameterFilePath_ != parameterFilePath_;
   if (!needsRecreate) {
     return true;
   }
@@ -189,6 +197,7 @@ bool NitroFrameProcessorCpp::ensureConfigured(int width, int height) {
   previousWidth_ = width;
   previousHeight_ = height;
   previousSetting_ = setting_;
+  previousNumThreads_ = numThreads_;
   previousParameterFilePath_ = parameterFilePath_;
   return true;
 }

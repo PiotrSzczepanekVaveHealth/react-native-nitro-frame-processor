@@ -26,7 +26,7 @@ private:
 private:
   bool isEnabled_ = true;
   int setting_ = 0;
-  int numThreads_ = 1;
+  int numThreads_;
   std::string parameterFilePath_;
   bool isLicenseActivated_ = false;
   void* handle_ = nullptr;
@@ -34,6 +34,7 @@ private:
   int previousWidth_ = -1;
   int previousHeight_ = -1;
   int previousSetting_ = -1;
+  int previousNumThreads_ = -1;
   std::string previousParameterFilePath_;
 };
 

@@ -1,18 +1,13 @@
 #include "NitroFrameProcessorCpp.hpp"
 
-#include <algorithm>
 #include <cstdlib>
 #include <filesystem>
-#include <thread>
 #include <vector>
 
 namespace margelo::nitro::nitroframeprocessor {
 
 namespace {
-int getDefaultNumThreads() {
-  const unsigned int hardwareConcurrency = std::thread::hardware_concurrency();
-  return hardwareConcurrency > 0 ? static_cast<int>(hardwareConcurrency) : 4;
-}
+constexpr int kFixedNumThreads = 2;
 
 std::string resolveParameterFilePath(const std::string& path) {
   if (path.empty()) {
@@ -94,7 +89,7 @@ bool parseFrameLayout(const uint8_t* message, size_t messageLength, ParsedFrameL
 }
 
 NitroFrameProcessorCpp::NitroFrameProcessorCpp()
-  : HybridObject(TAG), numThreads_(getDefaultNumThreads()) {}
+  : HybridObject(TAG), numThreads_(kFixedNumThreads) {}
 
 NitroFrameProcessorCpp::~NitroFrameProcessorCpp() {
   if (handle_ != nullptr) {
@@ -107,8 +102,8 @@ void NitroFrameProcessorCpp::setEnabled(bool value) {
   isEnabled_ = value;
 }
 
-void NitroFrameProcessorCpp::setNumThreads(double numThreads) {
-  numThreads_ = std::max(1, static_cast<int>(numThreads));
+void NitroFrameProcessorCpp::setNumThreads(double) {
+  numThreads_ = kFixedNumThreads;
 }
 
 void NitroFrameProcessorCpp::setSetting(double setting) {

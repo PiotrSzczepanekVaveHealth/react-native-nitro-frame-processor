@@ -24,6 +24,7 @@ add_library(
   src/main/cpp/cpp-adapter.cpp
   ../cpp/NitroFrameProcessorCpp.cpp
   ${FRAME_PROCESSOR_SOURCE}
+  ../cpp/NeedleEnhancement.cpp
 )
 
 # Add Nitrogen specs :)

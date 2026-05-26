@@ -50,7 +50,6 @@ import {
   setEnabled,
   setNeedleEnhancementAngleRange,
   setNeedleEnhancementEnabled,
-  setNeedleEnhancementNeedleLength,
   setParameterFilePath,
   setSetting,
 } from 'react-native-nitro-frame-processor';
@@ -65,7 +64,6 @@ if (activated) {
 
   setNeedleEnhancementEnabled(true);
   setNeedleEnhancementAngleRange(25, 35, 2);
-  setNeedleEnhancementNeedleLength(100);
 }
 
 // `inputFrame` should be a full frame message in the format described above.
@@ -109,17 +107,14 @@ Processes a frame and returns a new enhanced buffer when processing succeeds. Re
 
 ```ts
 setNeedleEnhancementEnabled(true);
-setNeedleEnhancementAngle(30);
 setNeedleEnhancementAngleRange(25, 35, 2);
-setNeedleEnhancementNeedleLength(100);
 ```
 
-`NEEDLE_ENHANCEMENT_CONFIG` exports the default slider ranges used by the native implementation:
+`NEEDLE_ENHANCEMENT_CONFIG` exports the default angle sweep from the firmware notes:
 
 ```ts
 {
   angle: { min: 25, max: 35, defaultValue: 25, updateBy: 2 },
-  length: { min: 0, max: 512, defaultValue: 100, updateBy: 1 },
 }
 ```
 

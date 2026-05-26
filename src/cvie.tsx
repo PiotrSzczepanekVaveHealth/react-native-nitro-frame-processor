@@ -36,10 +36,6 @@ export function setNeedleEnhancementEnabled(value: boolean): void {
   getNitroFrameProcessorHybridObject()?.setNeedleEnhancementEnabled(value);
 }
 
-export function setNeedleEnhancementAngle(degrees: number): void {
-  getNitroFrameProcessorHybridObject()?.setNeedleEnhancementAngle(degrees);
-}
-
 export function setNeedleEnhancementAngleRange(
   minDegrees: number,
   maxDegrees: number,
@@ -49,12 +45,6 @@ export function setNeedleEnhancementAngleRange(
     minDegrees,
     maxDegrees,
     stepDegrees
-  );
-}
-
-export function setNeedleEnhancementNeedleLength(needleLengthPx: number): void {
-  getNitroFrameProcessorHybridObject()?.setNeedleEnhancementNeedleLength(
-    needleLengthPx
   );
 }
 

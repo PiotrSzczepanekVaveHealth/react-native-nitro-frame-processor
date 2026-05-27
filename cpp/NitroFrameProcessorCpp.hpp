@@ -2,6 +2,7 @@
 
 #include "FrameProcessor.h"
 #include "HybridNitroFrameProcessorSpec.hpp"
+#include "NeedleEnhancement.hpp"
 
 #include <string>
 
@@ -16,6 +17,10 @@ public:
   void setEnabled(bool value) override;
   void setNumThreads(double numThreads) override;
   void setSetting(double setting) override;
+  void setNeedleEnhancementEnabled(bool value) override;
+  void setNeedleEnhancementAngle(double degrees) override;
+  void setNeedleEnhancementAngleRange(double minDegrees, double maxDegrees, double stepDegrees) override;
+  void setNeedleEnhancementNeedleLength(double needleLengthPx) override;
   void setParameterFilePath(const std::string& path) override;
   bool activateLicense(const std::string& activationKey, const std::string& deviceId) override;
   std::shared_ptr<ArrayBuffer> processFrame(const std::shared_ptr<ArrayBuffer>& input) override;
@@ -30,6 +35,7 @@ private:
   std::string parameterFilePath_;
   bool isLicenseActivated_ = false;
   void* handle_ = nullptr;
+  NeedleEnhancement needleEnhancement_;
 
   int previousWidth_ = -1;
   int previousHeight_ = -1;

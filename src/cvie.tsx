@@ -32,6 +32,22 @@ export function setSetting(setting: number): void {
   getNitroFrameProcessorHybridObject()?.setSetting(setting);
 }
 
+export function setNeedleEnhancementEnabled(value: boolean): void {
+  getNitroFrameProcessorHybridObject()?.setNeedleEnhancementEnabled(value);
+}
+
+export function setNeedleEnhancementAngleRange(
+  minDegrees: number,
+  maxDegrees: number,
+  stepDegrees: number
+): void {
+  getNitroFrameProcessorHybridObject()?.setNeedleEnhancementAngleRange(
+    minDegrees,
+    maxDegrees,
+    stepDegrees
+  );
+}
+
 export function setParameterFilePath(path: string): void {
   getNitroFrameProcessorHybridObject()?.setParameterFilePath(path);
 }

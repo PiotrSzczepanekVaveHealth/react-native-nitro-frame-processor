@@ -35,16 +35,13 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace react-native-nitro-frame-processor-example",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
+    "clean": "del-cli android/build lib",
     "prepare": "bob build",
     "nitrogen": "nitrogen",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "test": "jest",
-    "release": "release-it --only-version",
-    "web": "vite",
-    "build:web": "vite build"
+    "release": "release-it --only-version"
   },
   "keywords": [
     "react-native",
@@ -89,9 +86,7 @@
     "react-native": "0.85.3",
     "react-native-builder-bob": "^0.41.0",
     "react-native-nitro-modules": "^0.35.7",
-    "react-native-web": "~0.21.2",
     "release-it": "^20.0.1",
-    "turbo": "^2.9.14",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
@@ -99,9 +94,6 @@
     "react-native": "*",
     "react-native-nitro-modules": "^0.35.5"
   },
-  "workspaces": [
-    "example"
-  ],
   "packageManager": "yarn@1.22.22",
   "react-native-builder-bob": {
     "source": "src",
@@ -138,7 +130,6 @@
   "jest": {
     "preset": "@react-native/jest-preset",
     "modulePathIgnorePatterns": [
-      "<rootDir>/example/node_modules",
       "<rootDir>/lib/"
     ]
   },
@@ -173,8 +164,7 @@
       "eslint",
       "jest",
       "lefthook",
-      "release-it",
-      "vite"
+      "release-it"
     ],
     "version": "0.62.0"
   }

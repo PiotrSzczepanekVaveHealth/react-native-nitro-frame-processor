@@ -110,6 +110,26 @@ void NitroFrameProcessorCpp::setSetting(double setting) {
   setting_ = static_cast<int>(setting);
 }
 
+void NitroFrameProcessorCpp::setNeedleEnhancementEnabled(bool value) {
+  needleEnhancement_.setEnabled(value);
+}
+
+void NitroFrameProcessorCpp::setNeedleEnhancementAngle(double degrees) {
+  needleEnhancement_.setAngle(static_cast<float>(degrees));
+}
+
+void NitroFrameProcessorCpp::setNeedleEnhancementAngleRange(double minDegrees, double maxDegrees, double stepDegrees) {
+  needleEnhancement_.setAngleRange(
+    static_cast<float>(minDegrees),
+    static_cast<float>(maxDegrees),
+    static_cast<float>(stepDegrees)
+  );
+}
+
+void NitroFrameProcessorCpp::setNeedleEnhancementNeedleLength(double needleLengthPx) {
+  needleEnhancement_.setNeedleLengthPx(static_cast<int>(needleLengthPx));
+}
+
 void NitroFrameProcessorCpp::setParameterFilePath(const std::string& path) {
   parameterFilePath_ = resolveParameterFilePath(path);
 }
@@ -158,6 +178,10 @@ std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processFrame(const std::sha
   }
 
   uint8_t* rawOutput = outputData + layout.rawStart;
+  if (needleEnhancement_.isEnabled()) {
+    needleEnhancement_.process(rawOutput, frameWidth, frameHeight);
+  }
+
   if (!FrameProcessorEnhanceNextU8(handle_, rawOutput, rawOutput, setting_)) {
     return input;
   }

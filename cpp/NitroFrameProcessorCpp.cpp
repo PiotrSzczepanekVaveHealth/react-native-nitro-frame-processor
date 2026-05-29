@@ -1,6 +1,7 @@
 #include "NitroFrameProcessorCpp.hpp"
 
 #include <cstdlib>
+#include <cstring>
 #include <filesystem>
 #include <vector>
 
@@ -171,18 +172,31 @@ std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processFrame(const std::sha
     return input;
   }
 
-  auto output = ArrayBuffer::copy(input);
+  const bool isNeedleEnhancementEnabled = needleEnhancement_.isEnabled();
+  auto output = isNeedleEnhancementEnabled ? ArrayBuffer::copy(input) : ArrayBuffer::allocate(inputSize);
   auto* outputData = output != nullptr ? output->data() : nullptr;
   if (outputData == nullptr) {
     return input;
   }
 
+  const auto* rawInput = inputData + layout.rawStart;
   uint8_t* rawOutput = outputData + layout.rawStart;
-  if (needleEnhancement_.isEnabled()) {
+
+  if (isNeedleEnhancementEnabled) {
     needleEnhancement_.process(rawOutput, frameWidth, frameHeight);
+  } else {
+    if (layout.rawStart > 0) {
+      std::memcpy(outputData, inputData, layout.rawStart);
+    }
+
+    const size_t rawEnd = layout.rawStart + layout.rawLength;
+    if (rawEnd < inputSize) {
+      std::memcpy(outputData + rawEnd, inputData + rawEnd, inputSize - rawEnd);
+    }
   }
 
-  if (!FrameProcessorEnhanceNextU8(handle_, rawOutput, rawOutput, setting_)) {
+  const auto* enhanceInput = isNeedleEnhancementEnabled ? rawOutput : rawInput;
+  if (!FrameProcessorEnhanceNextU8(handle_, enhanceInput, rawOutput, setting_)) {
     return input;
   }
 

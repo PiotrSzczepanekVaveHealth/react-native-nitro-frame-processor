@@ -36,7 +36,7 @@ private:
   );
 
 private:
-  static constexpr float DEFAULT_THETA_RANGE_MIN_DEG = 25.0f;
+  static constexpr float DEFAULT_THETA_RANGE_MIN_DEG = 4.0f;
   static constexpr float DEFAULT_THETA_RANGE_MAX_DEG = 35.0f;
   static constexpr float DEFAULT_THETA_STEP_DEG = 2.0f;
   static constexpr int DEFAULT_NEEDLE_LENGTH_PX = 100;

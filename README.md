@@ -107,14 +107,14 @@ Processes a frame and returns a new enhanced buffer when processing succeeds. Re
 
 ```ts
 setNeedleEnhancementEnabled(true);
-setNeedleEnhancementAngleRange(25, 35, 2);
+setNeedleEnhancementAngleRange(4, 35, 2);
 ```
 
 `NEEDLE_ENHANCEMENT_CONFIG` exports the default angle sweep from the firmware notes:
 
 ```ts
 {
-  angle: { min: 25, max: 35, defaultValue: 25, updateBy: 2 },
+  angle: { min: 4, max: 35, defaultValue: 4, updateBy: 2 },
 }
 ```
 

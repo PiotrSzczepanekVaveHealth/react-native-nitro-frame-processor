@@ -11,9 +11,9 @@ export type NeedleEnhancementConfig = {
 
 export const NEEDLE_ENHANCEMENT_CONFIG: NeedleEnhancementConfig = {
   angle: {
-    min: 25,
+    min: 4,
     max: 35,
-    defaultValue: 25,
+    defaultValue: 4,
     updateBy: 2,
   },
 };

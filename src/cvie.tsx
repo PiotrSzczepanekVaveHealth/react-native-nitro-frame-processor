@@ -2,6 +2,18 @@ import { NitroModules } from 'react-native-nitro-modules';
 import type { NitroFrameProcessor } from './NitroFrameProcessor.nitro';
 
 let nitroFrameProcessorHybridObject: NitroFrameProcessor | null | undefined;
+let isVerbose = false;
+
+type VerboseParams = Record<string, boolean | number | string>;
+
+function logVerbose(methodName: string, params: VerboseParams): void {
+  if (!isVerbose) {
+    return;
+  }
+
+  // Keep this log in TypeScript so it is visible in the React Native console.
+  console.log(`[NeedleEnhancement] ${methodName}`, params);
+}
 
 function getNitroFrameProcessorHybridObject(): NitroFrameProcessor | null {
   if (nitroFrameProcessorHybridObject !== undefined) {
@@ -20,6 +32,11 @@ function getNitroFrameProcessorHybridObject(): NitroFrameProcessor | null {
   return nitroFrameProcessorHybridObject;
 }
 
+export function setVerbose(value: boolean): void {
+  isVerbose = value;
+  logVerbose('setVerbose', { value });
+}
+
 export function setEnabled(value: boolean): void {
   getNitroFrameProcessorHybridObject()?.setEnabled(value);
 }
@@ -33,10 +50,12 @@ export function setSetting(setting: number): void {
 }
 
 export function setNeedleEnhancementEnabled(value: boolean): void {
+  logVerbose('setNeedleEnhancementEnabled', { value });
   getNitroFrameProcessorHybridObject()?.setNeedleEnhancementEnabled(value);
 }
 
 export function setNeedleEnhancementAngle(degrees: number): void {
+  logVerbose('setNeedleEnhancementAngle', { degrees });
   getNitroFrameProcessorHybridObject()?.setNeedleEnhancementAngle(degrees);
 }
 
@@ -45,6 +64,11 @@ export function setNeedleEnhancementAngleRange(
   maxDegrees: number,
   stepDegrees: number
 ): void {
+  logVerbose('setNeedleEnhancementAngleRange', {
+    minDegrees,
+    maxDegrees,
+    stepDegrees,
+  });
   getNitroFrameProcessorHybridObject()?.setNeedleEnhancementAngleRange(
     minDegrees,
     maxDegrees,
@@ -53,6 +77,7 @@ export function setNeedleEnhancementAngleRange(
 }
 
 export function setNeedleEnhancementNeedleLength(needleLengthPx: number): void {
+  logVerbose('setNeedleEnhancementNeedleLength', { needleLengthPx });
   getNitroFrameProcessorHybridObject()?.setNeedleEnhancementNeedleLength(
     needleLengthPx
   );
@@ -62,6 +87,10 @@ export function setNeedleEnhancementDepthMask(
   maskSkinLayer: boolean,
   depthMaskThicknessPx: number
 ): void {
+  logVerbose('setNeedleEnhancementDepthMask', {
+    maskSkinLayer,
+    depthMaskThicknessPx,
+  });
   getNitroFrameProcessorHybridObject()?.setNeedleEnhancementDepthMask(
     maskSkinLayer,
     depthMaskThicknessPx
@@ -75,6 +104,13 @@ export function setNeedleEnhancementPipParams(
   resizeFactor: number,
   normalize: boolean
 ): void {
+  logVerbose('setNeedleEnhancementPipParams', {
+    thetaStepDeg,
+    thetaRangeMinDeg,
+    thetaRangeMaxDeg,
+    resizeFactor,
+    normalize,
+  });
   getNitroFrameProcessorHybridObject()?.setNeedleEnhancementPipParams(
     thetaStepDeg,
     thetaRangeMinDeg,

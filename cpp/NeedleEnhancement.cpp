@@ -26,7 +26,7 @@ float clampAngle(float degrees) {
 void NeedleEnhancement::setEnabled(bool value) {
   std::lock_guard<std::mutex> guard(needleEnhancementMutex);
   if (isEnabled_ != value) {
-    resetNeedleConfidenceAndMotionVariables(value ? 2U : 0U);
+    resetNeedleEnhancementTemporalState(value ? 2U : 0U);
     frameCounter_ = 0;
   }
   isEnabled_ = value;
@@ -37,7 +37,7 @@ bool NeedleEnhancement::isEnabled() const {
 }
 
 void NeedleEnhancement::resetTemporalState() {
-  resetNeedleConfidenceAndMotionVariables(isEnabled_ ? 2U : 0U);
+  resetNeedleEnhancementTemporalState(isEnabled_ ? 2U : 0U);
   frameCounter_ = 0;
 }
 

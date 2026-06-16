@@ -234,6 +234,23 @@ static void reset_needle_detection_cache_state(void)
     fusion_geometry_cache.valid = false;
 }
 
+void resetNeedleEnhancementTemporalState(unsigned int value)
+{
+    resetNeedleConfidenceAndMotionVariables(value);
+    reset_needle_detection_cache_state();
+
+    latest_virtual_conf_frame_valid = false;
+    latest_virtual_conf_frame = 0.0f;
+    needle_detection_physical_frame_counter = 0;
+    trapezoid_roi_cache_valid = false;
+
+    motion_bg_valid = false;
+    motion_bg_H = 0;
+    motion_bg_W = 0;
+    memset(motion_bg, 0, sizeof(motion_bg));
+    memset(motion_diff, 0, sizeof(motion_diff));
+}
+
 // check whether a cached virtual-frame line can be reused for the current physical frame.
 static bool needle_detection_cache_is_usable(unsigned int pixelCount, unsigned int beamCount, int needleLenPx)
 {

@@ -11,4 +11,5 @@ export {
   setNumThreads,
   setParameterFilePath,
   setSetting,
+  setVerbose,
 } from './cvie';

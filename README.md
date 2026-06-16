@@ -132,6 +132,7 @@ Use `setNeedleEnhancementAngleRange(min, max, step)` instead when the UI should 
 The public input surface supports:
 
 - enabling/disabling Needle Enhancement with `setNeedleEnhancementEnabled(value)`
+- enabling TypeScript console logs for Needle Enhancement setter calls with `setVerbose(value)`
 - selecting one angle with `setNeedleEnhancementAngle(degrees)`
 - selecting an angle sweep range with `setNeedleEnhancementAngleRange(minDegrees, maxDegrees, stepDegrees)`
 - overriding the expected needle length in pixels with `setNeedleEnhancementNeedleLength(needleLengthPx)`
@@ -139,6 +140,8 @@ The public input surface supports:
 - configuring the full PIP search params with `setNeedleEnhancementPipParams(thetaStepDeg, thetaRangeMinDeg, thetaRangeMaxDeg, resizeFactor, normalize)`
 
 These map to the configurable inputs passed into `needle_enhance_process()`: `needle_len_px`, `DepthMaskParams`, and `NeedlePipParams`. Frame size, header offset, frame number, and line output are managed internally by the adapter.
+
+`setVerbose(true)` logs Needle Enhancement setter calls from TypeScript, before they are forwarded to native code. For example, setting needle length to `600` logs `setNeedleEnhancementNeedleLength` with `{ needleLengthPx: 600 }`.
 
 Default UI values are intentionally owned by the host application. This package exposes setters only and does not export a Needle Enhancement defaults object.
 

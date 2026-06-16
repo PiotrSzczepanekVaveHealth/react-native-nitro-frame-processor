@@ -271,6 +271,10 @@ void reset_tip_motion_state(void);
 // initialize global needle confidence score parameters when needle feature is turned on
 void resetNeedleConfidenceAndMotionVariables(unsigned int value);
 
+// reset all temporal Needle Enhancement state, including confidence buffers,
+// cached virtual-frame detections, fusion geometry, and motion EMA background.
+void resetNeedleEnhancementTemporalState(unsigned int value);
+
 // calculate confidence score for one detected line and update temporal confidence state.
 NeedleConfidenceSingleFrame needle_line_confidence_singleFrame(float *Irot_best, int Hrot_best, int Wrot_best, int stride_rot, NeedleLineResult *best_needle_line);
 void needle_line_confidence_multiFrames(float conf_frame, NeedleLineResult best_needle_line_singleFrame);

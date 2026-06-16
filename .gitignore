@@ -47,6 +47,15 @@ node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
+bun-error.log
+bun.lockb
+
+# Native build scratch
+*.o
+*.obj
+*.a
+*.d
+*.dSYM/
 
 # BUCK
 buck-out/

@@ -21,6 +21,14 @@ public:
   void setNeedleEnhancementAngle(double degrees) override;
   void setNeedleEnhancementAngleRange(double minDegrees, double maxDegrees, double stepDegrees) override;
   void setNeedleEnhancementNeedleLength(double needleLengthPx) override;
+  void setNeedleEnhancementDepthMask(bool maskSkinLayer, double depthMaskThicknessPx) override;
+  void setNeedleEnhancementPipParams(
+    double thetaStepDeg,
+    double thetaRangeMinDeg,
+    double thetaRangeMaxDeg,
+    double resizeFactor,
+    bool normalize
+  ) override;
   void setParameterFilePath(const std::string& path) override;
   bool activateLicense(const std::string& activationKey, const std::string& deviceId) override;
   std::shared_ptr<ArrayBuffer> processFrame(const std::shared_ptr<ArrayBuffer>& input) override;

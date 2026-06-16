@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 
   s.source_files = [
     "ios/*.{swift,h,m,mm}",
-    "cpp/**/*.{hpp,cpp}",
+    "cpp/**/*.{h,hpp,c,cpp}",
   ]
   s.public_header_files = "ios/CVIEBridge.h"
   s.vendored_frameworks = "ios/CVIESDK/bin/cvie64.framework"

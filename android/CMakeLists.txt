@@ -25,6 +25,8 @@ add_library(
   ../cpp/NitroFrameProcessorCpp.cpp
   ${FRAME_PROCESSOR_SOURCE}
   ../cpp/NeedleEnhancement.cpp
+  ../cpp/needle-reference/algorithm/needle_enhancement.c
+  ../cpp/needle-reference/algorithm/needle_confidence_score.c
 )
 
 # Add Nitrogen specs :)

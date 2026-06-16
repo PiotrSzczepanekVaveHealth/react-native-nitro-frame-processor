@@ -1,5 +1,6 @@
 #include "NitroFrameProcessorCpp.hpp"
 
+#include <algorithm>
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
@@ -129,6 +130,26 @@ void NitroFrameProcessorCpp::setNeedleEnhancementAngleRange(double minDegrees, d
 
 void NitroFrameProcessorCpp::setNeedleEnhancementNeedleLength(double needleLengthPx) {
   needleEnhancement_.setNeedleLengthPx(static_cast<int>(needleLengthPx));
+}
+
+void NitroFrameProcessorCpp::setNeedleEnhancementDepthMask(bool maskSkinLayer, double depthMaskThicknessPx) {
+  needleEnhancement_.setDepthMask(maskSkinLayer, static_cast<unsigned int>(std::max(0.0, depthMaskThicknessPx)));
+}
+
+void NitroFrameProcessorCpp::setNeedleEnhancementPipParams(
+  double thetaStepDeg,
+  double thetaRangeMinDeg,
+  double thetaRangeMaxDeg,
+  double resizeFactor,
+  bool normalize
+) {
+  needleEnhancement_.setPipParams(
+    static_cast<float>(thetaStepDeg),
+    static_cast<float>(thetaRangeMinDeg),
+    static_cast<float>(thetaRangeMaxDeg),
+    static_cast<float>(resizeFactor),
+    normalize
+  );
 }
 
 void NitroFrameProcessorCpp::setParameterFilePath(const std::string& path) {

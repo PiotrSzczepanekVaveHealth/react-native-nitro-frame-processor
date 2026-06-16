@@ -36,6 +36,10 @@ export function setNeedleEnhancementEnabled(value: boolean): void {
   getNitroFrameProcessorHybridObject()?.setNeedleEnhancementEnabled(value);
 }
 
+export function setNeedleEnhancementAngle(degrees: number): void {
+  getNitroFrameProcessorHybridObject()?.setNeedleEnhancementAngle(degrees);
+}
+
 export function setNeedleEnhancementAngleRange(
   minDegrees: number,
   maxDegrees: number,
@@ -45,6 +49,38 @@ export function setNeedleEnhancementAngleRange(
     minDegrees,
     maxDegrees,
     stepDegrees
+  );
+}
+
+export function setNeedleEnhancementNeedleLength(needleLengthPx: number): void {
+  getNitroFrameProcessorHybridObject()?.setNeedleEnhancementNeedleLength(
+    needleLengthPx
+  );
+}
+
+export function setNeedleEnhancementDepthMask(
+  maskSkinLayer: boolean,
+  depthMaskThicknessPx: number
+): void {
+  getNitroFrameProcessorHybridObject()?.setNeedleEnhancementDepthMask(
+    maskSkinLayer,
+    depthMaskThicknessPx
+  );
+}
+
+export function setNeedleEnhancementPipParams(
+  thetaStepDeg: number,
+  thetaRangeMinDeg: number,
+  thetaRangeMaxDeg: number,
+  resizeFactor: number,
+  normalize: boolean
+): void {
+  getNitroFrameProcessorHybridObject()?.setNeedleEnhancementPipParams(
+    thetaStepDeg,
+    thetaRangeMinDeg,
+    thetaRangeMaxDeg,
+    resizeFactor,
+    normalize
   );
 }
 

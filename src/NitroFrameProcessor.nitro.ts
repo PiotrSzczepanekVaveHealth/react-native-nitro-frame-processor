@@ -15,6 +15,17 @@ export interface NitroFrameProcessor extends HybridObject<{
     stepDegrees: number
   ): void;
   setNeedleEnhancementNeedleLength(needleLengthPx: number): void;
+  setNeedleEnhancementDepthMask(
+    maskSkinLayer: boolean,
+    depthMaskThicknessPx: number
+  ): void;
+  setNeedleEnhancementPipParams(
+    thetaStepDeg: number,
+    thetaRangeMinDeg: number,
+    thetaRangeMaxDeg: number,
+    resizeFactor: number,
+    normalize: boolean
+  ): void;
   setParameterFilePath(path: string): void;
   activateLicense(activationKey: string, deviceId: string): boolean;
   processFrame(input: ArrayBuffer): ArrayBuffer;

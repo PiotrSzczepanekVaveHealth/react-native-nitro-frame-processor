@@ -4,6 +4,7 @@
 #include "HybridNitroFrameProcessorSpec.hpp"
 #include "NeedleEnhancement.hpp"
 
+#include <mutex>
 #include <string>
 
 namespace margelo::nitro::nitroframeprocessor {
@@ -29,9 +30,12 @@ public:
     double resizeFactor,
     bool normalize
   ) override;
+  void setNeedleEnhancementInsertionSide(bool rightSide) override;
   void setParameterFilePath(const std::string& path) override;
   bool activateLicense(const std::string& activationKey, const std::string& deviceId) override;
   std::shared_ptr<ArrayBuffer> processFrame(const std::shared_ptr<ArrayBuffer>& input) override;
+  void resetNeedleEnhancementTemporalState() override;
+  std::shared_ptr<ArrayBuffer> processNeedleEnhancementFrame(const std::shared_ptr<ArrayBuffer>& input) override;
 
 private:
   bool ensureConfigured(int width, int height);
@@ -44,6 +48,7 @@ private:
   bool isLicenseActivated_ = false;
   void* handle_ = nullptr;
   NeedleEnhancement needleEnhancement_;
+  std::mutex processFrameMutex_;
 
   int previousWidth_ = -1;
   int previousHeight_ = -1;

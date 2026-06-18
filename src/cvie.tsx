@@ -120,6 +120,13 @@ export function setNeedleEnhancementPipParams(
   );
 }
 
+export function setNeedleEnhancementInsertionSide(rightSide: boolean): void {
+  logVerbose('setNeedleEnhancementInsertionSide', { rightSide });
+  getNitroFrameProcessorHybridObject()?.setNeedleEnhancementInsertionSide(
+    rightSide
+  );
+}
+
 export function setParameterFilePath(path: string): void {
   getNitroFrameProcessorHybridObject()?.setParameterFilePath(path);
 }
@@ -141,4 +148,18 @@ export function processFrame(input: ArrayBuffer): ArrayBuffer {
     return input;
   }
   return instance.processFrame(input);
+}
+
+export function resetNeedleEnhancementTemporalState(): void {
+  logVerbose('resetNeedleEnhancementTemporalState', {});
+  getNitroFrameProcessorHybridObject()?.resetNeedleEnhancementTemporalState();
+}
+
+export function processNeedleEnhancementFrame(input: ArrayBuffer): ArrayBuffer {
+  logVerbose('processNeedleEnhancementFrame', { byteLength: input.byteLength });
+  const instance = getNitroFrameProcessorHybridObject();
+  if (instance == null) {
+    return input;
+  }
+  return instance.processNeedleEnhancementFrame(input);
 }

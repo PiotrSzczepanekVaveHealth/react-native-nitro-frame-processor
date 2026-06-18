@@ -4,12 +4,36 @@
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
+#include <mutex>
 #include <vector>
 
 namespace margelo::nitro::nitroframeprocessor {
 
 namespace {
 constexpr int kFixedNumThreads = 2;
+constexpr int kMaxFrameWidth = 2048;
+constexpr int kMaxFrameHeight = 2048;
+
+bool isValidFrameDimensions(int width, int height, size_t rawLength) {
+  if (width <= 0 || height <= 0) {
+    return false;
+  }
+  if (width > kMaxFrameWidth || height > kMaxFrameHeight) {
+    return false;
+  }
+  return rawLength == static_cast<size_t>(width) * static_cast<size_t>(height);
+}
+
+void invalidateProcessorHandle(void*& handle, int& previousWidth, int& previousHeight, int& previousSetting, int& previousNumThreads) {
+  if (handle != nullptr) {
+    FrameProcessorDestroy(handle);
+    handle = nullptr;
+  }
+  previousWidth = -1;
+  previousHeight = -1;
+  previousSetting = -1;
+  previousNumThreads = -1;
+}
 
 std::string resolveParameterFilePath(const std::string& path) {
   if (path.empty()) {
@@ -152,6 +176,10 @@ void NitroFrameProcessorCpp::setNeedleEnhancementPipParams(
   );
 }
 
+void NitroFrameProcessorCpp::setNeedleEnhancementInsertionSide(bool rightSide) {
+  needleEnhancement_.setInsertionSideRight(rightSide);
+}
+
 void NitroFrameProcessorCpp::setParameterFilePath(const std::string& path) {
   parameterFilePath_ = resolveParameterFilePath(path);
 }
@@ -165,6 +193,8 @@ bool NitroFrameProcessorCpp::activateLicense(
 }
 
 std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processFrame(const std::shared_ptr<ArrayBuffer>& input) {
+  std::lock_guard<std::mutex> processGuard(processFrameMutex_);
+
   if (!isEnabled_ || input == nullptr || input->data() == nullptr) {
     return input;
   }
@@ -185,11 +215,17 @@ std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processFrame(const std::sha
 
   const int frameWidth = static_cast<int>(layout.depth);
   const int frameHeight = static_cast<int>(layout.beamCount);
-  if (frameWidth <= 0 || frameHeight <= 0) {
+  if (!isValidFrameDimensions(frameWidth, frameHeight, layout.rawLength)) {
+    return input;
+  }
+  if (layout.rawStart + layout.rawLength > inputSize) {
     return input;
   }
 
   if (!ensureConfigured(frameWidth, frameHeight)) {
+    return input;
+  }
+  if (handle_ == nullptr) {
     return input;
   }
 
@@ -204,7 +240,9 @@ std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processFrame(const std::sha
   uint8_t* rawOutput = outputData + layout.rawStart;
 
   if (isNeedleEnhancementEnabled) {
-    needleEnhancement_.process(rawOutput, frameWidth, frameHeight);
+    if (!needleEnhancement_.process(rawOutput, frameWidth, frameHeight)) {
+      return input;
+    }
   } else {
     if (layout.rawStart > 0) {
       std::memcpy(outputData, inputData, layout.rawStart);
@@ -218,6 +256,60 @@ std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processFrame(const std::sha
 
   const auto* enhanceInput = isNeedleEnhancementEnabled ? rawOutput : rawInput;
   if (!FrameProcessorEnhanceNextU8(handle_, enhanceInput, rawOutput, setting_)) {
+    invalidateProcessorHandle(
+      handle_,
+      previousWidth_,
+      previousHeight_,
+      previousSetting_,
+      previousNumThreads_
+    );
+    return input;
+  }
+
+  return output;
+}
+
+void NitroFrameProcessorCpp::resetNeedleEnhancementTemporalState() {
+  needleEnhancement_.resetTemporalState();
+}
+
+std::shared_ptr<ArrayBuffer> NitroFrameProcessorCpp::processNeedleEnhancementFrame(
+  const std::shared_ptr<ArrayBuffer>& input
+) {
+  std::lock_guard<std::mutex> processGuard(processFrameMutex_);
+
+  if (input == nullptr || input->data() == nullptr) {
+    return input;
+  }
+
+  const auto* inputData = input->data();
+  const size_t inputSize = input->size();
+  if (inputSize == 0) {
+    return input;
+  }
+
+  ParsedFrameLayout layout;
+  if (!parseFrameLayout(inputData, inputSize, &layout)) {
+    return input;
+  }
+
+  const int frameWidth = static_cast<int>(layout.depth);
+  const int frameHeight = static_cast<int>(layout.beamCount);
+  if (!isValidFrameDimensions(frameWidth, frameHeight, layout.rawLength)) {
+    return input;
+  }
+  if (layout.rawStart + layout.rawLength > inputSize) {
+    return input;
+  }
+
+  auto output = ArrayBuffer::copy(input);
+  auto* outputData = output != nullptr ? output->data() : nullptr;
+  if (outputData == nullptr) {
+    return input;
+  }
+
+  uint8_t* rawOutput = outputData + layout.rawStart;
+  if (!needleEnhancement_.process(rawOutput, frameWidth, frameHeight)) {
     return input;
   }
 

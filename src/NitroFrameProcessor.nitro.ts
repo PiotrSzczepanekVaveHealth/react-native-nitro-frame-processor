@@ -26,7 +26,10 @@ export interface NitroFrameProcessor extends HybridObject<{
     resizeFactor: number,
     normalize: boolean
   ): void;
+  setNeedleEnhancementInsertionSide(rightSide: boolean): void;
   setParameterFilePath(path: string): void;
   activateLicense(activationKey: string, deviceId: string): boolean;
   processFrame(input: ArrayBuffer): ArrayBuffer;
+  resetNeedleEnhancementTemporalState(): void;
+  processNeedleEnhancementFrame(input: ArrayBuffer): ArrayBuffer;
 }

@@ -19,12 +19,12 @@ public:
     float resizeFactor,
     bool normalize
   );
+  void setInsertionSideRight(bool rightSide);
 
+  void resetTemporalState();
   bool process(uint8_t* frame, int sampleCount, int scanlineCount);
 
 private:
-  void resetTemporalState();
-
   static constexpr float DEFAULT_THETA_RANGE_MIN_DEG = 4.0f;
   static constexpr float DEFAULT_THETA_RANGE_MAX_DEG = 35.0f;
   static constexpr float DEFAULT_THETA_STEP_DEG = 2.0f;
@@ -43,6 +43,7 @@ private:
   float thetaRangeMaxDeg_ = DEFAULT_THETA_RANGE_MAX_DEG;
   float resizeFactor_ = DEFAULT_RESIZE_FACTOR;
   bool normalize_ = DEFAULT_NORMALIZE;
+  bool insertionSideRight_ = true;
   int frameCounter_ = 0;
 };
 

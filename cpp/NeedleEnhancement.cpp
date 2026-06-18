@@ -91,6 +91,13 @@ void NeedleEnhancement::setPipParams(
   resetTemporalState();
 }
 
+void NeedleEnhancement::setInsertionSideRight(bool rightSide) {
+  std::lock_guard<std::mutex> guard(needleEnhancementMutex);
+  insertionSideRight_ = rightSide;
+  needle_insertion_side_right = rightSide ? 1 : 0;
+  resetTemporalState();
+}
+
 bool NeedleEnhancement::process(uint8_t* frame, int sampleCount, int scanlineCount) {
   if (!isEnabled_) {
     return true;

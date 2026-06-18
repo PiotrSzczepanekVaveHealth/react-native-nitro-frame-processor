@@ -211,6 +211,7 @@ static const int8_t dx[13] = { 0, -1,0,1, -2,-1,0,1,2, -1,0,1, 0};
 static const int8_t dy[13] = { -2, -1,-1,-1, 0,0,0,0,0, 1,1,1, 2};
 
 // default needle detection parameters
+int needle_insertion_side_right = 1;
 NeedlePipParams needleDetectionParams =
 {
     2.0f,  // theta_step_deg
@@ -697,7 +698,7 @@ static void prepare_rotated_row_segments(const float cornerX[4], const float cor
         if (!rotated_row_x_bounds_from_corners(cornerX, cornerY, Wrot, y, &x_left_bound, &x_right_bound))
             continue;
 
-        if (NEEDLE_INSERSION_SIDE_RIGHT)
+        if (needle_insertion_side_right)
         {
             int x_right = x_right_bound;
             int x_left = x_right - (int)needle_len_rot + 1;
@@ -1198,7 +1199,7 @@ static bool evaluate_line_candidate_by_direct_sampling(const uint8_t *Iorig, uns
     if (!rotated_row_x_bounds_from_corners(cornerX, cornerY, Wrot, rho, &x_left_bound, &x_right_bound))
         return false;
 
-    int entryEval = NEEDLE_INSERSION_SIDE_RIGHT ? x_right_bound : x_left_bound;
+    int entryEval = needle_insertion_side_right ? x_right_bound : x_left_bound;
     int rhoEval = rho;
     DirectRotSampler sampler;
     init_direct_rot_sampler(&sampler, Iorig, Horig, Worig, Hrot, Wrot, theta_deg);
@@ -1226,7 +1227,7 @@ static bool evaluate_line_candidate_by_direct_sampling(const uint8_t *Iorig, uns
     rhoEval = bestRow;
     tipEval = find_tip_x_along_best_line_direct(&sampler, rhoEval);
     if (rotated_row_x_bounds_from_corners(cornerX, cornerY, Wrot, rhoEval, &x_left_bound, &x_right_bound))
-        entryEval = NEEDLE_INSERSION_SIDE_RIGHT ? x_right_bound : x_left_bound;
+        entryEval = needle_insertion_side_right ? x_right_bound : x_left_bound;
 #endif
 
     int segmentLength = 0;
@@ -1291,7 +1292,7 @@ static bool setup_motion_hotspot_roi(int Horig, int Worig, int Hrot, int Wrot, f
     int xA = clampi(tipOriginal - NEEDLE_MOTION_SEARCH_RADIUS_PX, 0, Wrot - 1);
     int xB = clampi(tipOriginal + NEEDLE_MOTION_SEARCH_RADIUS_PX, 0, Wrot - 1);
 
-    if (NEEDLE_INSERSION_SIDE_RIGHT)
+    if (needle_insertion_side_right)
         xB = clampi(xB, 0, entryX);
     else
         xA = clampi(xA, entryX, Wrot - 1);
@@ -2073,7 +2074,7 @@ static NeedleLineResult pip_with_prior_info(const uint8_t *I_in, unsigned int H,
 
     float theta_range_min_deg = p.theta_range_min_deg;
     float theta_range_max_deg = p.theta_range_max_deg;
-    if(NEEDLE_INSERSION_SIDE_RIGHT == 0) // needle is inserted from left of the image
+    if(needle_insertion_side_right == 0) // needle is inserted from left of the image
     {
         theta_range_min_deg = 180.0 - p.theta_range_max_deg;
         theta_range_max_deg = 180.0 - p.theta_range_min_deg;
@@ -2152,7 +2153,7 @@ static NeedleLineResult pip_with_prior_info(const uint8_t *I_in, unsigned int H,
                 cand.Ht = *Hout;
                 cand.Wt = *Wout;
                 cand.tip_x = 0;
-                cand.entry_x = (NEEDLE_INSERSION_SIDE_RIGHT && row_seg_right[localBestRow] >= row_seg_left[localBestRow]) ?
+                cand.entry_x = (needle_insertion_side_right && row_seg_right[localBestRow] >= row_seg_left[localBestRow]) ?
                     row_seg_right[localBestRow] : row_seg_left[localBestRow];
                 cand.segmentMean = -1.0e30f;
                 cand.rotBufferIdx = -1;
@@ -2204,9 +2205,9 @@ static NeedleLineResult pip_with_prior_info(const uint8_t *I_in, unsigned int H,
         int x_left_bound = 0;
         int x_right_bound = 0;
         if (rotated_row_original_x_bounds(H, W, selectedCand.Ht, selectedCand.Wt, selectedCand.theta_deg, selectedCand.rho, &x_left_bound, &x_right_bound))
-            selectedCand.entry_x = NEEDLE_INSERSION_SIDE_RIGHT ? x_right_bound : x_left_bound;
+            selectedCand.entry_x = needle_insertion_side_right ? x_right_bound : x_left_bound;
         else
-            selectedCand.entry_x = NEEDLE_INSERSION_SIDE_RIGHT ? (int)selectedCand.Wt - 1 : 0;
+            selectedCand.entry_x = needle_insertion_side_right ? (int)selectedCand.Wt - 1 : 0;
 
         DirectRotSampler fallbackSampler;
         init_direct_rot_sampler(&fallbackSampler, I_proc, H, W, selectedCand.Ht, selectedCand.Wt, selectedCand.theta_deg);
@@ -2704,7 +2705,7 @@ int intersect(int x1, int y1, int x2, int y2, int c)
 // precompute trapezoid ROI zeroing ranges for the current image dimensions.
 static void update_trapezoid_roi_boundary_cache(unsigned int pixelCount, unsigned int beamCount)
 {
-    const int sideRight = NEEDLE_INSERSION_SIDE_RIGHT ? 1 : 0;
+    const int sideRight = needle_insertion_side_right ? 1 : 0;
 
     if (trapezoid_roi_cache_valid && trapezoid_roi_cache_pixelCount == pixelCount && trapezoid_roi_cache_beamCount == beamCount && trapezoid_roi_cache_sideRight == sideRight)
         return;
@@ -2723,7 +2724,7 @@ static void update_trapezoid_roi_boundary_cache(unsigned int pixelCount, unsigne
     if (pixelCount <= 1 || beamCount == 0 || beamCount > MAX_SCANLINES_NEEDLE)
         return;
 
-    if (NEEDLE_INSERSION_SIDE_RIGHT)
+    if (needle_insertion_side_right)
     {
         int boundaryX = (int)beamCount - (int)(2.8 / 3.56 * (float)beamCount);
         if (boundaryX < 0)

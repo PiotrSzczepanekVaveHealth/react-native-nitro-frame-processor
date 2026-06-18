@@ -26,14 +26,15 @@
 #define NEEDLE_LEN_MM  38 // mm
 #define MM_TO_PIXEL_CONVERSION_FACTOR 7.7922  // different presets have different values
 #define NEEDLE_LEN_FACTOR 1.5
-#define NEEDLE_INSERSION_SIDE_RIGHT 1
+// 1 = right-side insertion, any other value = left-side insertion (runtime-tunable).
+extern int needle_insertion_side_right;
 
 // forward-profile line detector: distribute each original pixel to rotated rho bins.
 #define NEEDLE_DETECTION_ACCUM_USE_Y_BILINEAR 1
 
 // Virtual detection stream mode: run expensive needle line/tip/confidence detection once
 // every N frames, while fusion still runs every frame with the latest valid line.
-#define NEEDLE_DETECTION_INTERVAL_FRAMES 3
+#define NEEDLE_DETECTION_INTERVAL_FRAMES 1 //3
 
 // virtual-frame confidence gate compensation. Detection/confidence update only happens every NEEDLE_DETECTION_INTERVAL_FRAMES physical frames, so ON counters
 // are scaled down for fast acquisition while OFF counters remain unscaled for slow, stable turn-off.

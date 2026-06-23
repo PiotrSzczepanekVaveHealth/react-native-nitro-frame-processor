@@ -180,7 +180,9 @@ Needle Enhancement is configured through setters only. Default UI values are own
 | Needle length (px) | `setNeedleEnhancementNeedleLength(needleLengthPx)` | `needle_len_px` passed to `needle_enhance_process()` |
 | Depth mask | `setNeedleEnhancementDepthMask(maskSkinLayer, depthMaskThicknessPx)` | `DepthMaskParams` |
 
-> **NEF (needle enhancement fuse mode)** is not configured in this package. The host application should send the TCP `NEF` command to the probe (`NEF = 1` always fuse; `NEF = 2` fuse based on confidence score).
+| Fuse mode (`1` = always fuse, `2` = confidence fusion) | `setNeedleEnhancementFuseMode(mode)` | `needle_confidence_on` via `resetNeedleConfidenceAndMotionVariables()` |
+
+> **Firmware NEF:** keep probe firmware needle enhancement off (`NEF0`). App-side fuse mode is configured with `setNeedleEnhancementFuseMode(1 | 2)`.
 
 #### Angle selection modes
 
@@ -194,6 +196,7 @@ Example:
 
 ```ts
 setNeedleEnhancementEnabled(true);
+setNeedleEnhancementFuseMode(2);
 setNeedleEnhancementAngleRange(4, 35, 2);
 setNeedleEnhancementInsertionSide(true);
 ```
@@ -201,6 +204,7 @@ setNeedleEnhancementInsertionSide(true);
 #### All Needle Enhancement setters
 
 - `setNeedleEnhancementEnabled(value)` — enable/disable Needle Enhancement in `processFrame`
+- `setNeedleEnhancementFuseMode(mode)` — `1` = always fuse detected needle; `2` = fuse based on confidence score
 - `setVerbose(value)` — log Needle Enhancement setter calls in the React Native console
 - `resetNeedleEnhancementTemporalState()` — reset EMA / motion / confidence state
 - `processNeedleEnhancementFrame(input)` — replay external sequences (Needle Enhancement only)

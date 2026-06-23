@@ -19,6 +19,7 @@ public:
   void setNumThreads(double numThreads) override;
   void setSetting(double setting) override;
   void setNeedleEnhancementEnabled(bool value) override;
+  void setNeedleEnhancementFuseMode(double mode) override;
   void setNeedleEnhancementAngle(double degrees) override;
   void setNeedleEnhancementAngleRange(double minDegrees, double maxDegrees, double stepDegrees) override;
   void setNeedleEnhancementNeedleLength(double needleLengthPx) override;

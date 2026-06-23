@@ -8,6 +8,7 @@ export interface NitroFrameProcessor extends HybridObject<{
   setNumThreads(numThreads: number): void;
   setSetting(setting: number): void;
   setNeedleEnhancementEnabled(value: boolean): void;
+  setNeedleEnhancementFuseMode(mode: number): void;
   setNeedleEnhancementAngle(degrees: number): void;
   setNeedleEnhancementAngleRange(
     minDegrees: number,

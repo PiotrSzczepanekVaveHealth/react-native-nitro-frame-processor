@@ -20,6 +20,7 @@ public:
     bool normalize
   );
   void setInsertionSideRight(bool rightSide);
+  void setFuseMode(unsigned int mode);
 
   void resetTemporalState();
   bool process(uint8_t* frame, int sampleCount, int scanlineCount);
@@ -35,6 +36,7 @@ private:
   static constexpr unsigned int DEFAULT_DEPTH_MASK_THICKNESS_PX = 8;
 
   bool isEnabled_ = false;
+  unsigned int fuseMode_ = 2;
   int needleLengthPx_ = DEFAULT_NEEDLE_LENGTH_PX;
   bool maskSkinLayer_ = DEFAULT_MASK_SKIN_LAYER;
   unsigned int depthMaskThicknessPx_ = DEFAULT_DEPTH_MASK_THICKNESS_PX;

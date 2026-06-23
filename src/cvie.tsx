@@ -54,6 +54,11 @@ export function setNeedleEnhancementEnabled(value: boolean): void {
   getNitroFrameProcessorHybridObject()?.setNeedleEnhancementEnabled(value);
 }
 
+export function setNeedleEnhancementFuseMode(mode: 1 | 2): void {
+  logVerbose('setNeedleEnhancementFuseMode', { mode });
+  getNitroFrameProcessorHybridObject()?.setNeedleEnhancementFuseMode(mode);
+}
+
 export function setNeedleEnhancementAngle(degrees: number): void {
   logVerbose('setNeedleEnhancementAngle', { degrees });
   getNitroFrameProcessorHybridObject()?.setNeedleEnhancementAngle(degrees);

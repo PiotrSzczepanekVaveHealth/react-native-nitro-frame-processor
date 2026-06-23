@@ -8,6 +8,7 @@ export {
   setNeedleEnhancementAngleRange,
   setNeedleEnhancementDepthMask,
   setNeedleEnhancementEnabled,
+  setNeedleEnhancementFuseMode,
   setNeedleEnhancementInsertionSide,
   setNeedleEnhancementNeedleLength,
   setNeedleEnhancementPipParams,

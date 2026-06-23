@@ -140,6 +140,11 @@ void NitroFrameProcessorCpp::setNeedleEnhancementEnabled(bool value) {
   needleEnhancement_.setEnabled(value);
 }
 
+void NitroFrameProcessorCpp::setNeedleEnhancementFuseMode(double mode) {
+  const auto fuseMode = static_cast<unsigned int>(mode);
+  needleEnhancement_.setFuseMode(fuseMode == 2U ? 2U : 1U);
+}
+
 void NitroFrameProcessorCpp::setNeedleEnhancementAngle(double degrees) {
   needleEnhancement_.setAngle(static_cast<float>(degrees));
 }
